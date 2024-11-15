@@ -63,11 +63,59 @@ The `api-mock` container is configured to expose two ports, 80 (HTTP) and 443 (H
 The `tests` container sets the `REQUESTS_CA_BUNDLE` environment variable to specify a custom certificate bundle for SSL verification.
 	
 ## 3. Set up and run the application
-- Install Docker and Docker Compose if not already installed.</br>
-- Verify the application is running: Use a tool like curl or Postman.</br>
+- Install Docker and Docker Compose if not already installed. ✓</br>
+- Verify the application is running: Use a tool like curl or Postman. ✓</br>
 
 ## 4. Interact with the Inventory of Devices API
-- Identify the available API endpoints related to the inventory of devices.</br>
+- Identify the available API endpoints related to the inventory of devices.
+
+There are two available endpoints: '**/inventory/devices**' and '**/guids**' with the following requests implemented:
+### GET /inventory/devices
+	- Headers: none explicitly mentioned, so default headers are used
+	- Body: none
+	- Response body (retrieved from `inventory_devices.json`): 
+ 		[
+		    object1,
+	 	    object2
+		]
+	- Response status code (retrieved from `inventory_devices.json`): 200 / may be changed
+### PUT /inventory/devices
+	- Headers: none explicitly mentioned, so default headers are used
+	- Body: JSON object containing "body" and "status_code"
+	- Response body: 
+ 		{
+   		    "new_body": [
+     			body
+		    ],
+		    "new_status_code": status_code
+		}
+	- Response status code: 200
+ 	- Purpose: Updates the default_inventory_devices_response, which the GET request later uses.
+### POST /guid/add
+	- Headers: none explicitly mentioned, so default headers are used
+ 	- Path Parameter: guid - The GUID to be added is passed as part of the URL path. Example: /12345/add
+	- Body: none
+	- Response body (retrieved and updated from guid_add.json):
+	 	{
+		    "guid": [
+			guid
+		    ]
+		}
+	- Response status code (retrieved from guid_add.json): 200
+ 	- Purpose: Adds guid to guid list in memory.
+### GET /guids
+	- Headers: none explicitly mentioned, so default headers are used
+	- Body: none
+	- Response body (retrieved from `guid_add.json`): 
+		{
+		    "guid": [
+		        currently saved guids
+		    ]
+		}
+	- Response status code (retrieved from `guid_add.json`): 200
+### PUT /guid/add
+	- Headers: none explicitly mentioned, so default headers are used
+
 - Analyze the request and response formats.</br>
 
 ## 5. Develop test cases for the Inventory of Devices API
